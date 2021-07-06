@@ -22,7 +22,13 @@ const schema = yup.object().shape({
   cpf: yup.string().required('CPF é obrigatório').min(11, "Mínimo da caracteres para CPF é 11"),
   email: yup.string().email("Digite um email válido").required('Email é obrigatório!'),
   passWord: yup.string().required('Senha é obrigatório!').min(8, 'Senha deve conter um mínimo de 8 dígitos'),
-  confirmPassWord: yup.string().required('Campo obrigatório!').min(8, 'Senha deve ser idêntica a anterior')
+  confirmPassWord: yup.mixed().required('Campo necessário').test(
+    "match",
+    "As senhas Não conicidem !", // your error message
+    function () {
+      return this.parent.passWord === this.parent.confirmPassWord;
+    }
+  )
   
 });
 
@@ -45,8 +51,8 @@ export default function Home() {
  const router = useRouter()
 
  const handleClickSubmit = (user) => {
-    console.log(user)
-    router.push('/modal')
+    console.log(user.cpf)
+    router.push('/modal', )
 
  }
 
@@ -151,7 +157,7 @@ export default function Home() {
             >
               
             </Input>
-            {errors.cpf && <p>{errors.cpf.message}</p>}
+            {errors.cpf && <Text color='red.100'>{errors.cpf.message}</Text>}
             
             <Input
               width='80%'
@@ -164,7 +170,7 @@ export default function Home() {
               
             >
             </Input>
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && <Text color='red.100'>{errors.email.message}</Text>}
 
             <Flex w='100%' display='flex' justifyContent='center' alignItems='center' mb='1rem'>
               <Input
@@ -189,7 +195,7 @@ export default function Home() {
               >
               </Image>              
             </Flex>
-            {errors.passWord && <p>{errors.passWord.message}</p>}
+            {errors.passWord && <Text color='red.100'>{errors.passWord.message}</Text>}
 
             <Flex w='100%' display='flex' justifyContent='center' alignItems='center'>
               <Input
@@ -212,7 +218,7 @@ export default function Home() {
               >
               </Image>
             </Flex>
-            {errors.confirmPassWord && <p>Campo obrigatório</p>}
+            {errors.confirmPassWord && <Text color='red.100'>{errors.confirmPassWord.message}</Text>}
 
 
             <Button 

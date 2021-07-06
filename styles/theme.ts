@@ -26,6 +26,9 @@ const customTheme = {
         },
         blue: {
             500: '#5914DF'
+        },
+        red: {
+            100: '#ff7675'
         }
        
     }
