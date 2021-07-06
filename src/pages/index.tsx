@@ -16,12 +16,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { stringify } from 'querystring'
 
 
 const schema = yup.object().shape({
   cpf: yup.string().required('CPF é obrigatório').min(11, "Mínimo da caracteres para CPF é 11"),
   email: yup.string().email("Digite um email válido").required('Email é obrigatório!'),
-  passWord: yup.string().required('Senha é obrigatório!').min(8, 'Senha deve conter um mínimo de 8 dígitos'),
+  passWord: yup.string().required('Senha é obrigatório!').min(3, 'Senha deve conter um mínimo de 8 dígitos'),
   confirmPassWord: yup.string()
     .required('Campo Obrigatório')
     .test('match', 'As senhas Não coincidem!', function(value) {
@@ -49,9 +50,11 @@ export default function Home() {
  const router = useRouter()
 
  const handleClickSubmit = (user) => {
-    console.log(user.cpf)
-    router.push('/modal', )
-
+   router.push({
+     pathname: '/modal',
+     query: {userEmail: `${user.email}` },
+    })
+    
  }
 
 
@@ -151,6 +154,7 @@ export default function Home() {
               marginBottom='1rem'
               id='cpf'
               {...register("cpf")}
+              autoComplete='off'
               
             >
               
@@ -165,6 +169,8 @@ export default function Home() {
               marginBottom='1rem'
               id='email'
               {...register('email')}
+              autoComplete='off'
+
               
             >
             </Input>
@@ -179,6 +185,8 @@ export default function Home() {
                 backgroundColor='white.500'
                 id='passWord'
                 {...register('passWord')}
+                autoComplete='off'
+
                 
               />
                           
@@ -204,6 +212,8 @@ export default function Home() {
                 backgroundColor='white.500'
                 id='confirmPassword'
                 {...register('confirmPassWord')}
+                autoComplete='off'
+
               />
               <Image 
               src={'/show-password.svg'} 

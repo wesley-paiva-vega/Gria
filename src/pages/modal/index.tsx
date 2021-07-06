@@ -15,9 +15,14 @@ import {
     import { useRouter } from 'next/router'
 
 
-function ModalSendEmail({email='fulano-de-tal@gmail.com'}) {
 
-  const router = useRouter();
+
+function ModalSendEmail({ email='' }) {
+
+
+  const router = useRouter(); 
+  
+  const { query: {userEmail} } = router;
 
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -36,7 +41,7 @@ function ModalSendEmail({email='fulano-de-tal@gmail.com'}) {
             <ModalHeader display='flex' justifyContent='center'>Status Do cadastro</ModalHeader>
             
             <ModalBody >
-              <Text>Enviamos um email para {email}</Text>
+              <Text>Enviamos um email para {userEmail}</Text>
             </ModalBody>
   
             <ModalFooter>
