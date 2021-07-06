@@ -22,13 +22,11 @@ const schema = yup.object().shape({
   cpf: yup.string().required('CPF é obrigatório').min(11, "Mínimo da caracteres para CPF é 11"),
   email: yup.string().email("Digite um email válido").required('Email é obrigatório!'),
   passWord: yup.string().required('Senha é obrigatório!').min(8, 'Senha deve conter um mínimo de 8 dígitos'),
-  confirmPassWord: yup.mixed().required('Campo necessário').test(
-    "match",
-    "As senhas Não conicidem !", // your error message
-    function () {
-      return this.parent.passWord === this.parent.confirmPassWord;
-    }
-  )
+  confirmPassWord: yup.string()
+    .required('Campo Obrigatório')
+    .test('match', 'As senhas Não coincidem!', function(value) {
+      return this.parent.passWord === value
+    })
   
 });
 
